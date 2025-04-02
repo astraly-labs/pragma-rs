@@ -35,8 +35,6 @@ pub struct GetEntryResponse {
 }
 
 impl PragmaClient {
-    // ... (new method)
-
     /// Fetches price data for a trading pair from the offchain "Data Pair" endpoint.
     ///
     /// # Arguments
@@ -48,18 +46,18 @@ impl PragmaClient {
     /// # Examples
     ///
     /// ```
-    /// use pragma_sdk::{Config, Environment, PragmaClient, GetEntryParams};
+    /// use pragma_sdk::{Config, Environment, PragmaError, PragmaClient, GetEntryParams};
     ///
     /// #[tokio::main]
-    /// async fn main() -> Result<(), Box<dyn std::error::PragmaError>> {
+    /// async fn main() -> Result<(), PragmaError> {
     ///     let config = Config::new("your_api_key".to_string(), Environment::Development);
     ///     let client = PragmaClient::new(config)?;
-    ///     let response = client.get_data_pair("BTC", "USD", None).await?;
+    ///     let response = client.get_entry("BTC", "USD", None).await?;
     ///     println!("Price: {}", response.price);
     ///     Ok(())
     /// }
     /// ```
-    pub async fn get_data_pair(
+    pub async fn get_entry(
         &self,
         base: &str,
         quote: &str,

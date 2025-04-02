@@ -17,9 +17,10 @@ pub enum Environment {
 /// let config = Config::new("your_api_key".to_string(), Environment::Development);
 /// ```
 pub struct Config {
-    pub api_key: String,
-    pub base_url: String,
-    pub ws_url: String,
+    pub(crate) api_key: String,
+    pub(crate) base_url: String,
+    #[allow(unused)]
+    pub(crate) ws_url: String,
 }
 
 impl Config {
@@ -28,9 +29,9 @@ impl Config {
         let (base_url, ws_url) = match environment {
             Environment::Development => (
                 "https://api.devnet.pragma.build/node/v1".to_string(),
-                "wss://ws.devnet.pragma.build/node/v1/data/subscribe".to_string(),
+                "wss://ws.devnet.pragma.build/node/v1".to_string(),
             ),
-            Environment::Production => todo!("Not sure yet."),
+            Environment::Production => todo!(""),
         };
         Config {
             api_key,

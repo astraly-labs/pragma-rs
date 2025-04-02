@@ -10,10 +10,10 @@ use crate::{Config, PragmaError};
 /// # Examples
 ///
 /// ```
-/// use pragma_sdk::{Config, Environment, PragmaClient};
+/// use pragma_sdk::{Config, PragmaError, Environment, PragmaClient};
 ///
 /// #[tokio::main]
-/// async fn main() -> Result<(), Box<dyn std::error::PragmaError>> {
+/// async fn main() -> Result<(), PragmaError> {
 ///     let config = Config::new("your_api_key".to_string(), Environment::Development);
 ///     let client = PragmaClient::new(config)?;
 ///     Ok(())
@@ -28,7 +28,7 @@ impl PragmaClient {
     /// Creates a new `PragmaClient` instance with the given configuration.
     pub fn new(config: Config) -> Result<Self, PragmaError> {
         let mut headers = HeaderMap::new();
-        headers.insert("X-API-KEY", HeaderValue::from_str(&config.api_key)?);
+        headers.insert("x-api-key", HeaderValue::from_str(&config.api_key)?);
         let http_client = Client::builder().default_headers(headers).build()?;
         Ok(PragmaClient {
             config,

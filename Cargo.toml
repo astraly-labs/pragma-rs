@@ -1,0 +1,24 @@
+[package]
+name = "pragma-rs"
+version = "0.1.0"
+edition = "2021"
+rust-version = "1.81"
+categories = ["pragma", "sdk"]
+description = "SDK to interact with the Pragma API."
+authors = ["Pragma <support@pragma.build>"]
+keywords = ["pragma", "common", "utils"]
+repository = "https://github.com/astraly-labs/pragma-rs"
+license = "MIT"
+
+[dependencies]
+reqwest = { version = "0.11", features = ["json", "stream"] }  # HTTP client with JSON support
+tokio-tungstenite = "0.17"                           # WebSocket client
+serde = { version = "1.0", features = ["derive"] }   # Serialization/deserialization
+serde_json = "1.0"                                   # JSON handling
+thiserror = "1.0"                                    # Custom error types
+url = "2.2"                                          # URL manipulation
+async-trait = "0.1"                                  # Async traits if needed
+tokio = { version = "1", features = ["full"] }       # Async runtime
+
+[dev-dependencies]
+mockito = "0.31"                                     # Mock server for testing

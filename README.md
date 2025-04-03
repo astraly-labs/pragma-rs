@@ -18,7 +18,7 @@ async fn main() {
 
     // Simple call
     let r = client.get_entry("BTC", "USD", None).await.unwrap();
-    println!("BTC/USD:\n{r:?}");
+    println!("BTC/USD data:\n{r:?}");
 
     // Or with some options
     let r = client
@@ -37,6 +37,6 @@ async fn main() {
         )
         .await
         .unwrap();
-    println!("STRK/ETH:\n{r:?}");
+    println!("ETH/STRK data:\n{r:?}");
 }
 ```

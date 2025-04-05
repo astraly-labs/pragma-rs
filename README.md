@@ -32,7 +32,6 @@ async fn main() {
                 aggregation: None,
                 entry_type: None,
                 with_components: Some(false),
-                expiry: None,
             }),
         )
         .await

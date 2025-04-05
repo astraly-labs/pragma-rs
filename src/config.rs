@@ -29,7 +29,7 @@ impl Config {
         let (base_url, ws_url) = match environment {
             Environment::Development => (
                 "https://api.devnet.pragma.build/node/v1".to_string(),
-                "wss://ws.devnet.pragma.build/node/v1".to_string(),
+                "wss://api.devnet.pragma.build/node/v1".to_string(),
             ),
             Environment::Production => todo!(""),
         };

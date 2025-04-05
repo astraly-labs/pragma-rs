@@ -1,5 +1,9 @@
 #[derive(thiserror::Error, Debug)]
 pub enum PragmaError {
+    /// Unauthorized access (HTTP 401).
+    #[error("Unauthorized: {0}")]
+    Unauthorized(String),
+
     /// PragmaError from the HTTP client.
     #[error("HTTP request failed: {0}")]
     HttpError(#[from] reqwest::Error),
@@ -18,4 +22,10 @@ pub enum PragmaError {
 
     #[error("Invalid header: {0}")]
     InvalidHeader(#[from] reqwest::header::InvalidHeaderValue),
+
+    #[error("Could not serialize: {0}")]
+    SerializationError(String),
+
+    #[error("Channel error: {0}")]
+    ChannelError(String),
 }

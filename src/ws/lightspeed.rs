@@ -39,7 +39,8 @@ impl PragmaClient {
     /// which provides ultra-fast price updates every 500ms without verification metadata.
     pub fn lightspeed_ws_client(&self) -> PragmaWsClient<LightspeedMessage> {
         let url = format!("{}/data/price/subscribe", self.config.ws_url);
-        PragmaWsClient::new(url, |msg| {
+        let api_key = self.config.api_key.clone();
+        PragmaWsClient::new(url, api_key, |msg| {
             serde_json::from_str::<LightspeedMessage>(&msg).ok()
         })
     }

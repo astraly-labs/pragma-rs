@@ -65,7 +65,8 @@ impl PragmaClient {
     /// which provides verifiable price updates with cryptographic signatures.
     pub fn starkex_ws_client(&self) -> PragmaWsClient<StarkexMessage> {
         let url = format!("{}/data/subscribe", self.config.ws_url);
-        PragmaWsClient::new(url, |msg| {
+        let api_key = self.config.api_key.clone();
+        PragmaWsClient::new(url, api_key, |msg| {
             if let Ok(msg) = serde_json::from_str::<String>(&msg) {
                 serde_json::from_str::<StarkexMessage>(&msg).ok()
             } else {

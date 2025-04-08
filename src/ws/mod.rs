@@ -1,11 +1,13 @@
 pub mod lightspeed;
 pub mod starkex;
 
+use std::sync::Arc;
+
 use futures_util::{SinkExt, StreamExt};
 use serde::Serialize;
-use std::sync::Arc;
 use thiserror::Error;
 use tokio::sync::mpsc;
+use tokio_tungstenite::tungstenite::client::IntoClientRequest;
 use tokio_tungstenite::{connect_async, tungstenite::protocol::Message};
 
 #[derive(Error, Debug)]
@@ -22,6 +24,7 @@ pub enum WsError {
 
 pub struct PragmaWsClient<T> {
     url: String,
+    api_key: String,
     outgoing_sender: mpsc::UnboundedSender<T>,
     outgoing_receiver: Option<mpsc::UnboundedReceiver<T>>,
     incoming_sender: mpsc::UnboundedSender<T>,
@@ -31,7 +34,7 @@ pub struct PragmaWsClient<T> {
 
 impl<T: Send + 'static + Serialize> PragmaWsClient<T> {
     /// Creates a new WebSocket client with separate channels for sending and receiving.
-    pub fn new<F>(url: String, message_handler: F) -> Self
+    pub fn new<F>(url: String, api_key: String, message_handler: F) -> Self
     where
         F: Fn(String) -> Option<T> + Send + Sync + 'static,
     {
@@ -43,6 +46,7 @@ impl<T: Send + 'static + Serialize> PragmaWsClient<T> {
         // No cloning here—just setting up the struct with the sender and receiver
         Self {
             url,
+            api_key,
             outgoing_sender,
             outgoing_receiver: Some(outgoing_receiver),
             incoming_sender,
@@ -55,8 +59,18 @@ impl<T: Send + 'static + Serialize> PragmaWsClient<T> {
     pub async fn connect(&mut self) -> Result<(), WsError> {
         let url = self.url.clone();
         let message_handler = self.message_handler.clone();
+        let api_key = self.api_key.clone();
 
-        let (ws_stream, _) = connect_async(&url)
+        let mut request = match url.into_client_request() {
+            Ok(r) => Ok(r),
+            Err(e) => Err(WsError::Connection(format!("{e}"))),
+        }?;
+
+        request
+            .headers_mut()
+            .insert("x-api-key", api_key.parse().unwrap());
+
+        let (ws_stream, _) = connect_async(request)
             .await
             .map_err(|e| WsError::Connection(e.to_string()))?;
 

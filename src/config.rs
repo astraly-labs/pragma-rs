@@ -1,6 +1,10 @@
 /// Environment options for the Pragma API.
-#[derive(Debug, Clone, Copy)]
+#[derive(Debug, Clone)]
 pub enum Environment {
+    Local {
+        http_base_url: String,
+        ws_base_url: String,
+    },
     Development,
     Production,
 }
@@ -27,11 +31,15 @@ impl Config {
     /// Creates a new `Config` instance with the given API key and environment.
     pub fn new(api_key: String, environment: Environment) -> Self {
         let (base_url, ws_url) = match environment {
+            Environment::Local {
+                http_base_url,
+                ws_base_url,
+            } => (http_base_url, ws_base_url),
             Environment::Development => (
                 "https://api.devnet.pragma.build/node/v1".to_string(),
                 "wss://api.devnet.pragma.build/node/v1".to_string(),
             ),
-            Environment::Production => todo!(""),
+            Environment::Production => todo!("No endpoints ready yet."),
         };
         Config {
             api_key,

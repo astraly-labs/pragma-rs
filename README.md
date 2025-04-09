@@ -11,7 +11,7 @@ Add `pragma-rs` to your Rust project by tossing this into your `Cargo.toml`:
 
 ```toml
 [dependencies]
-pragma-rs = "0.1.3"
+pragma-rs = "0.1.4"
 ```
 
 🔧 **Tip**: You’ll need tokio since this SDK uses async/await.
@@ -20,7 +20,7 @@ You can also use the `sync` version by using the feature:
 
 ```toml
 [dependencies]
-pragma-rs = { version = "0.1.3", features = ["sync"] }
+pragma-rs = { version = "0.1.4", features = ["sync"] }
 ```
 
 ## 🚀 Quick Start

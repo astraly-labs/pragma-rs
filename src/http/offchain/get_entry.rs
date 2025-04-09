@@ -164,4 +164,64 @@ impl PragmaClient {
             .await
             .map_err(PragmaError::HttpError)
     }
+
+    #[cfg(feature = "sync")]
+    /// Sync version of `get_entry`
+    pub fn get_entry_sync(
+        &self,
+        base: &str,
+        quote: &str,
+        params: Option<GetEntryParams>,
+    ) -> Result<GetEntryResponse, PragmaError> {
+        let url = format!("{}/data/{}/{}", self.config.base_url, base, quote);
+        let mut request = self.http_blocking_client.get(&url);
+
+        if let Some(p) = params {
+            let mut query = Vec::new();
+            if let Some(ts) = p.timestamp {
+                query.push(("timestamp", ts.to_string()));
+            }
+            if let Some(interval) = p.interval {
+                query.push(("interval", interval.as_str().to_string()));
+            }
+            if let Some(routing) = p.routing {
+                query.push(("routing", routing.to_string()));
+            }
+            if let Some(agg) = p.aggregation {
+                query.push(("aggregation", agg.as_str().to_string()));
+            }
+            if let Some(entry) = p.entry_type {
+                query.push(("entry_type", entry.as_str().to_string()));
+            }
+            if let Some(wc) = p.with_components {
+                query.push(("with_components", wc.to_string()));
+            }
+            request = request.query(&query);
+        }
+
+        let response = request.send()?;
+
+        match response.status() {
+            reqwest::StatusCode::UNAUTHORIZED => {
+                let text = response
+                    .text()
+                    .unwrap_or_else(|_| "No additional details".to_string());
+                return Err(PragmaError::Unauthorized(text));
+            }
+            status if !status.is_success() => {
+                let text = response
+                    .text()
+                    .unwrap_or_else(|_| "Unknown error".to_string());
+                return Err(PragmaError::ApiError(format!(
+                    "API returned status {}: {}",
+                    status, text
+                )));
+            }
+            _ => {}
+        }
+
+        response
+            .json::<GetEntryResponse>()
+            .map_err(PragmaError::HttpError)
+    }
 }

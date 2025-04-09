@@ -2,7 +2,8 @@
 
 **pragma-rs** is a Rust SDK for the [Pragma API](https://docs.pragma.build/api-reference/introduction), making it easy to fetch offchain and onchain data or get real-time updates via WebSocket.
 
-> ⚠️ **Heads Up**: This crate is still **in progress** and **not ready for production**
+> [!WARNING]  
+> This crate is still **in progress** and **not ready for production**
 
 ## 📦 Installation
 

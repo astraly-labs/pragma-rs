@@ -60,11 +60,10 @@ async fn main() {
     let config = Config::new(api_key, Environment::Development);
     let client = PragmaClient::new(config).unwrap();
 
-    // Quick and easy
     let r = client.get_entry("BTC", "USD", None).await.unwrap();
     println!("BTC/USD data:\n{r:?}");
 
-    // With all the bells and whistles
+    // Or with options
     let r = client
         .get_entry(
             "BTC",

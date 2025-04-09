@@ -10,8 +10,12 @@ keywords = ["pragma", "common", "utils"]
 repository = "https://github.com/astraly-labs/pragma-rs"
 license = "MIT"
 
+[features]
+default = []
+sync = ["reqwest/blocking"]
+
 [dependencies]
-reqwest = { version = "0.12", features = ["json", "stream"] }
+reqwest = { version = "0.12", features = ["json", "stream", "blocking"] }
 tokio-tungstenite = { version = "0.26", features = ["native-tls"] }
 serde = { version = "1", features = ["derive"] }
 serde_json = "1.0"

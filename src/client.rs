@@ -21,7 +21,9 @@ use crate::{Config, PragmaError};
 /// ```
 pub struct PragmaClient {
     pub(crate) config: Config,
-    pub(crate) http_client: Client,
+    pub(crate) http_client: reqwest::Client,
+    #[cfg(feature = "sync")]
+    pub(crate) http_blocking_client: reqwest::blocking::Client,
 }
 
 impl PragmaClient {
@@ -29,10 +31,18 @@ impl PragmaClient {
     pub fn new(config: Config) -> Result<Self, PragmaError> {
         let mut headers = HeaderMap::new();
         headers.insert("x-api-key", HeaderValue::from_str(&config.api_key)?);
-        let http_client = Client::builder().default_headers(headers).build()?;
+
+        let http_client = Client::builder().default_headers(headers.clone()).build()?;
+        #[cfg(feature = "sync")]
+        let http_blocking_client = reqwest::blocking::Client::builder()
+            .default_headers(headers)
+            .build()?;
+
         Ok(PragmaClient {
             config,
             http_client,
+            #[cfg(feature = "sync")]
+            http_blocking_client,
         })
     }
 }

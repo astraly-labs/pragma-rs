@@ -2,15 +2,16 @@ mod client;
 mod config;
 mod errors;
 mod http;
-mod types;
 mod ws;
 
 pub use client::PragmaClient;
 pub use config::{Config, Environment};
 pub use errors::PragmaError;
 
-// Types
-pub use types::{aggregation::AggregationMode, interval::Interval};
+// Re-export types from pragma_common
+pub use pragma_common::{
+    aggregation::AggregationMode, instrument::Instrument, interval::Interval, network::Network,
+};
 
 // Offchain endpoints
 pub use http::offchain::get_entry::{Component, GetEntryParams, GetEntryResponse};

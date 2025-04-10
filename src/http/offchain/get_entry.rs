@@ -1,8 +1,7 @@
+use pragma_common::{aggregation::AggregationMode, instrument::Instrument, interval::Interval};
 use serde::{Deserialize, Serialize};
 
-use crate::{
-    client::PragmaClient, types::entry_type::EntryType, AggregationMode, Interval, PragmaError,
-};
+use crate::{client::PragmaClient, PragmaError};
 
 /// Optional query parameters for the "Data Pair" endpoint.
 ///
@@ -22,7 +21,7 @@ pub struct GetEntryParams {
     pub aggregation: Option<AggregationMode>,
 
     /// The type of entry to retrieve (e.g., spot or perp).
-    pub entry_type: Option<EntryType>,
+    pub entry_type: Option<Instrument>,
 
     /// Whether to include component data in the response.
     pub with_components: Option<bool>,
@@ -128,7 +127,7 @@ impl PragmaClient {
                 query.push(("aggregation", agg.as_str().to_string()));
             }
             if let Some(entry) = p.entry_type {
-                query.push(("entry_type", entry.as_str().to_string()));
+                query.push(("entry_type", entry.to_string()));
             }
             if let Some(wc) = p.with_components {
                 query.push(("with_components", wc.to_string()));
@@ -191,7 +190,7 @@ impl PragmaClient {
                 query.push(("aggregation", agg.as_str().to_string()));
             }
             if let Some(entry) = p.entry_type {
-                query.push(("entry_type", entry.as_str().to_string()));
+                query.push(("entry_type", entry.to_string()));
             }
             if let Some(wc) = p.with_components {
                 query.push(("with_components", wc.to_string()));

@@ -1,4 +1,6 @@
-use pragma_rs::{AggregationMode, Environment, GetEntryParams, Instrument, Interval, PragmaClient};
+use pragma_rs::{
+    AggregationMode, Environment, GetEntryParams, InstrumentType, Interval, PragmaClient,
+};
 
 #[tokio::main]
 async fn main() {
@@ -16,7 +18,7 @@ async fn main() {
                 interval: Some(Interval::OneMinute),
                 routing: Some(false),
                 aggregation: Some(AggregationMode::Median),
-                entry_type: Some(Instrument::Perp),
+                entry_type: Some(InstrumentType::Perp),
                 with_components: Some(false),
             }),
         )

@@ -1,6 +1,6 @@
 [package]
 name = "pragma-rs"
-version = "0.1.7"
+version = "0.1.8"
 edition = "2021"
 rust-version = "1.81"
 categories = []
@@ -15,7 +15,7 @@ default = []
 sync = ["reqwest/blocking"]
 
 [dependencies]
-pragma-common = "0.1.6"
+pragma-common = "0.1.7"
 
 reqwest = { version = "0.12", features = ["json", "stream", "blocking"] }
 tokio-tungstenite = { version = "0.26", features = ["native-tls"] }

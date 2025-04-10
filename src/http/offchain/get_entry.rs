@@ -1,4 +1,6 @@
-use pragma_common::{aggregation::AggregationMode, instrument::Instrument, interval::Interval};
+use pragma_common::{
+    aggregation::AggregationMode, instrument_type::InstrumentType, interval::Interval,
+};
 use serde::{Deserialize, Serialize};
 
 use crate::{client::PragmaClient, PragmaError};
@@ -21,7 +23,7 @@ pub struct GetEntryParams {
     pub aggregation: Option<AggregationMode>,
 
     /// The type of entry to retrieve (e.g., spot or perp).
-    pub entry_type: Option<Instrument>,
+    pub entry_type: Option<InstrumentType>,
 
     /// Whether to include component data in the response.
     pub with_components: Option<bool>,

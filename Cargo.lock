@@ -1228,9 +1228,9 @@ dependencies = [
 
 [[package]]
 name = "pragma-common"
-version = "0.1.6"
+version = "0.1.7"
 source = "registry+https://github.com/rust-lang/crates.io-index"
-checksum = "c5029628579cf77f9bfcd7645ccf212b9980ae56c12ccc9f9a2dfbb4439140a9"
+checksum = "53505605546c232a8538a93d4d5b2cd04ce15868f4fa81c517293d784533498a"
 dependencies = [
  "axum-tracing-opentelemetry",
  "bigdecimal",
@@ -1249,7 +1249,7 @@ dependencies = [
 
 [[package]]
 name = "pragma-rs"
-version = "0.1.7"
+version = "0.1.8"
 dependencies = [
  "futures-util",
  "pragma-common",

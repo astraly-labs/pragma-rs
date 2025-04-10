@@ -10,7 +10,7 @@ pub use errors::PragmaError;
 
 // Re-export types from pragma_common
 pub use pragma_common::{
-    aggregation::AggregationMode, instrument::Instrument, interval::Interval, network::Network,
+    aggregation::AggregationMode, instrument::Instrument, interval::Interval, web3::StarknetNetwork,
 };
 
 // Offchain endpoints

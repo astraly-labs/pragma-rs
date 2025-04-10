@@ -16,20 +16,20 @@ pub enum LightspeedMessage {
     },
     PriceUpdate {
         oracle_prices: Vec<PriceUpdate>,
-        timestamp: u32,
+        timestamp: i64,
     },
 }
 
 #[derive(Debug, Serialize, Deserialize)]
 pub struct PriceUpdate {
+    /// The number of sources aggregated to compute the price.
+    pub num_sources_aggregated: u32,
+
     /// The unique identifier for the asset pair (e.g., "0x12345").
     pub pair_id: String,
 
     /// The aggregated price of the asset pair, returned as a string to preserve precision.
     pub price: String,
-
-    /// The number of sources aggregated to compute the price.
-    pub num_sources_aggregated: String,
 }
 
 impl PragmaClient {

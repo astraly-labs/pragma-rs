@@ -19,7 +19,7 @@ pub enum StarkexMessage {
     },
     PriceUpdate {
         oracle_prices: Vec<PriceUpdate>,
-        timestamp: u32,
+        timestamp: i64,
     },
 }
 
@@ -52,7 +52,7 @@ pub struct SignedPrice {
     pub signing_key: String,
 
     /// The timestamp of the price data.
-    pub timestamp: u64,
+    pub timestamp: i64,
 
     /// The cryptographic signature of the price data.
     pub signature: String,

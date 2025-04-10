@@ -1,6 +1,6 @@
 use serde::{Deserialize, Serialize};
 
-use pragma_common::{aggregation::AggregationMode, network::Network};
+use pragma_common::{aggregation::AggregationMode, web3::StarknetNetwork};
 
 use crate::{PragmaClient, PragmaError};
 
@@ -8,7 +8,7 @@ use crate::{PragmaClient, PragmaError};
 #[derive(Debug, Default)]
 pub struct GetOnchainEntryParams {
     /// The network to query (required).
-    pub network: Network,
+    pub network: StarknetNetwork,
     /// Optional aggregation mode.
     pub aggregation: Option<AggregationMode>,
     /// Optional routing flag.

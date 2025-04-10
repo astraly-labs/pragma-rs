@@ -1,6 +1,8 @@
 use serde::{Deserialize, Serialize};
 
-use crate::{types::network::Network, AggregationMode, PragmaClient, PragmaError};
+use pragma_common::{aggregation::AggregationMode, network::Network};
+
+use crate::{PragmaClient, PragmaError};
 
 /// Parameters for the `get_onchain_entry` method.
 #[derive(Debug, Default)]

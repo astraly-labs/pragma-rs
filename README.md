@@ -20,7 +20,7 @@ You can also use the `sync` version by using the feature:
 
 ```toml
 [dependencies]
-pragma-rs = { version = "0.1.4", features = ["sync"] }
+pragma-rs = { version = "0.1.5", features = ["sync"] }
 ```
 
 ## 🚀 Quick Start

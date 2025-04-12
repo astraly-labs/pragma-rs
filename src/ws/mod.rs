@@ -43,7 +43,6 @@ impl<T: Send + 'static + Serialize> PragmaWsClient<T> {
         // Channel for incoming messages (WebSocket -> user)
         let (incoming_sender, incoming_receiver) = mpsc::unbounded_channel::<T>();
 
-        // No cloning here—just setting up the struct with the sender and receiver
         Self {
             url,
             api_key,

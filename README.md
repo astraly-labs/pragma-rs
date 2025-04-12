@@ -14,8 +14,6 @@ Add `pragma-rs` to your Rust project by tossing this into your `Cargo.toml`:
 pragma-rs = "0.2.0"
 ```
 
-🔧 **Tip**: You’ll need tokio since this SDK uses async/await.
-
 You can also use the `sync` version by using the feature:
 
 ```toml

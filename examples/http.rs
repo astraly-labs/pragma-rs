@@ -9,6 +9,8 @@ async fn main() {
     let config = pragma_rs::Config::new(api_key, Environment::Development);
     let client = PragmaClient::new(config).unwrap();
 
+    assert!(client.is_healthy().await);
+
     let r = client
         .get_entry(
             "BTC",

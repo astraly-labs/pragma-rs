@@ -38,7 +38,7 @@ impl PragmaClient {
     /// This method configures a `PragmaWsClient` to connect to the Lightspeed WebSocket endpoint,
     /// which provides ultra-fast price updates every 500ms without verification metadata.
     pub fn lightspeed_ws_client(&self) -> PragmaWsClient<LightspeedMessage> {
-        let url = format!("{}/data/price/subscribe", self.config.ws_url);
+        let url = format!("{}/node/v1/data/price/subscribe", self.config.ws_url);
         let api_key = self.config.api_key.clone();
         PragmaWsClient::new(url, api_key, |msg| {
             serde_json::from_str::<LightspeedMessage>(&msg).ok()

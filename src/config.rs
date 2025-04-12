@@ -36,8 +36,8 @@ impl Config {
                 ws_base_url,
             } => (http_base_url, ws_base_url),
             Environment::Development => (
-                "https://api.devnet.pragma.build/node/v1".to_string(),
-                "wss://api.devnet.pragma.build/node/v1".to_string(),
+                "https://api.devnet.pragma.build".to_string(),
+                "wss://api.devnet.pragma.build".to_string(),
             ),
             Environment::Production => todo!("No endpoints ready yet."),
         };

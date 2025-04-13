@@ -11,7 +11,7 @@ impl PragmaClient {
         match self
             .http_client
             .get(url)
-            .timeout(std::time::Duration::from_secs(5))
+            .timeout(std::time::Duration::from_secs(2))
             .send()
             .await
         {
@@ -25,10 +25,10 @@ impl PragmaClient {
     /// Returns true if the API responds successfully, false otherwise.
     pub fn is_healthy_sync(&self) -> bool {
         let url = format!("{}/node", self.config.base_url);
-        match self
-            .http_blocking_client
+        let client = self.get_blocking_client().unwrap();
+        match client
             .get(url)
-            .timeout(std::time::Duration::from_secs(5))
+            .timeout(std::time::Duration::from_secs(2))
             .send()
         {
             Ok(response) => response.status().is_success(),

@@ -190,8 +190,9 @@ impl PragmaClient {
         quote: &str,
         params: Option<GetEntryParams>,
     ) -> Result<GetEntryResponse, PragmaError> {
-        let url = format!("{}/data/{}/{}", self.config.base_url, base, quote);
-        let mut request = self.http_blocking_client.get(&url);
+        let url = format!("{}/node/v1/data/{}/{}", self.config.base_url, base, quote);
+        let client = self.get_blocking_client()?;
+        let mut request = client.get(&url);
 
         if let Some(p) = params {
             let mut query = Vec::new();

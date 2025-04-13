@@ -1,6 +1,6 @@
 [package]
 name = "pragma-rs"
-version = "0.2.1"
+version = "0.2.2"
 edition = "2021"
 rust-version = "1.81"
 categories = []
@@ -14,6 +14,11 @@ license = "MIT"
 default = []
 sync = ["reqwest/blocking"]
 bigdecimal = ["dep:bigdecimal"]
+
+[[example]]
+name = "http_sync"
+path = "examples/http_sync.rs"
+required-features = ["sync"]
 
 [dependencies]
 pragma-common = "0.2.1"

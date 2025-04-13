@@ -42,7 +42,7 @@ impl PragmaClient {
 
     /// Gets or creates the thread-local blocking client
     #[cfg(feature = "sync")]
-    pub(crate) fn get_blocking_client(&self) -> Result<reqwest::blocking::Client, PragmaError> {
+    pub(crate) fn blocking_client(&self) -> Result<reqwest::blocking::Client, PragmaError> {
         BLOCKING_CLIENT.with(|cell| {
             let mut client_opt = cell.borrow_mut();
             if client_opt.is_none() {

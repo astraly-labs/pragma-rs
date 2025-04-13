@@ -152,7 +152,7 @@ impl PragmaClient {
             "{}/node/v1/onchain/{}/{}",
             self.config.base_url, base, quote
         );
-        let client = self.get_blocking_client()?;
+        let client = self.blocking_client()?;
         let mut request = client.get(&url);
 
         let mut query = vec![("network", params.network.to_string())];

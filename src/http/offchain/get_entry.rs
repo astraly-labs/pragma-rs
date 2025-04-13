@@ -191,7 +191,7 @@ impl PragmaClient {
         params: Option<GetEntryParams>,
     ) -> Result<GetEntryResponse, PragmaError> {
         let url = format!("{}/node/v1/data/{}/{}", self.config.base_url, base, quote);
-        let client = self.get_blocking_client()?;
+        let client = self.blocking_client()?;
         let mut request = client.get(&url);
 
         if let Some(p) = params {

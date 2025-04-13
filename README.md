@@ -11,7 +11,7 @@ Add `pragma-rs` to your Rust project by tossing this into your `Cargo.toml`:
 
 ```toml
 [dependencies]
-pragma-rs = "0.2.2"
+pragma-rs = "0.2.3"
 ```
 
 Available features:

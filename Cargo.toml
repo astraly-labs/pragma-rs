@@ -1,6 +1,6 @@
 [package]
 name = "pragma-rs"
-version = "0.2.0"
+version = "0.2.1"
 edition = "2021"
 rust-version = "1.81"
 categories = []
@@ -13,9 +13,10 @@ license = "MIT"
 [features]
 default = []
 sync = ["reqwest/blocking"]
+bigdecimal = ["dep:bigdecimal"]
 
 [dependencies]
-pragma-common = "0.1.17"
+pragma-common = "0.2.1"
 
 reqwest = { version = "0.12", features = ["json", "stream", "blocking"] }
 tokio-tungstenite = { version = "0.26", features = ["native-tls"] }
@@ -24,3 +25,6 @@ serde_json = "1.0"
 thiserror = "2.0"
 tokio = { version = "1", features = ["full"] }
 futures-util = { version = "0.3" }
+
+# bigdecimal feature
+bigdecimal = { version = "0.4.8", optional = true }

@@ -152,7 +152,8 @@ impl PragmaClient {
             "{}/node/v1/onchain/{}/{}",
             self.config.base_url, base, quote
         );
-        let mut request = self.http_blocking_client.get(&url);
+        let client = self.get_blocking_client()?;
+        let mut request = client.get(&url);
 
         let mut query = vec![("network", params.network.to_string())];
         if let Some(agg) = params.aggregation {

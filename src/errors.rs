@@ -12,6 +12,9 @@ pub enum PragmaError {
     #[error("WebSocket error: {0}")]
     WebSocketError(#[from] tokio_tungstenite::tungstenite::Error),
 
+    #[error("Could not build Pragma client")]
+    BuildingClient,
+
     /// PragmaError parsing JSON data.
     #[error("JSON parsing failed: {0}")]
     JsonError(#[from] serde_json::Error),

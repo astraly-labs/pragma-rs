@@ -1,3 +1,7 @@
+use std::num::ParseIntError;
+
+#[cfg(feature = "bigdecimal")]
+use bigdecimal::BigDecimal;
 use serde::{Deserialize, Serialize};
 
 use pragma_common::{aggregation::AggregationMode, web3::StarknetNetwork};
@@ -53,6 +57,18 @@ pub struct GetOnchainEntryResponse {
     pub components: Option<Vec<OnchainComponent>>,
 }
 
+impl GetOnchainEntryResponse {
+    pub fn price_u128(&self) -> Result<u128, ParseIntError> {
+        u128::from_str_radix(&self.price.replace("0x", ""), 16)
+    }
+
+    #[cfg(feature = "bigdecimal")]
+    pub fn price_bd(&self) -> Result<BigDecimal, ParseIntError> {
+        let price_u128 = u128::from_str_radix(&self.price.replace("0x", ""), 16)?;
+        Ok(BigDecimal::new(price_u128.into(), i64::from(self.decimals)))
+    }
+}
+
 impl PragmaClient {
     /// Fetches onchain entry data for a trading pair.
     ///
@@ -99,7 +115,7 @@ impl PragmaClient {
         );
         let mut request = self.http_client.get(&url);
 
-        let mut query = vec![("network", params.network.as_str().to_string())];
+        let mut query = vec![("network", params.network.to_string())];
 
         if let Some(agg) = params.aggregation {
             query.push(("aggregation", agg.as_str().to_string()));
@@ -138,7 +154,7 @@ impl PragmaClient {
         );
         let mut request = self.http_blocking_client.get(&url);
 
-        let mut query = vec![("network", params.network.as_str().to_string())];
+        let mut query = vec![("network", params.network.to_string())];
         if let Some(agg) = params.aggregation {
             query.push(("aggregation", agg.as_str().to_string()));
         }

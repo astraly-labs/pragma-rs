@@ -1,3 +1,7 @@
+use std::num::ParseIntError;
+
+#[cfg(feature = "bigdecimal")]
+use bigdecimal::BigDecimal;
 use pragma_common::{
     aggregation::AggregationMode, instrument_type::InstrumentType, interval::Interval,
 };
@@ -67,6 +71,18 @@ pub struct GetEntryResponse {
     /// Optional list of individual price components, included if `with_components` is true.
     #[serde(default)]
     pub components: Option<Vec<Component>>,
+}
+
+impl GetEntryResponse {
+    pub fn price_u128(&self) -> Result<u128, ParseIntError> {
+        u128::from_str_radix(&self.price.replace("0x", ""), 16)
+    }
+
+    #[cfg(feature = "bigdecimal")]
+    pub fn price_bd(&self) -> Result<BigDecimal, ParseIntError> {
+        let price_u128 = u128::from_str_radix(&self.price.replace("0x", ""), 16)?;
+        Ok(BigDecimal::new(price_u128.into(), i64::from(self.decimals)))
+    }
 }
 
 impl PragmaClient {

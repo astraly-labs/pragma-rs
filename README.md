@@ -11,15 +11,12 @@ Add `pragma-rs` to your Rust project by tossing this into your `Cargo.toml`:
 
 ```toml
 [dependencies]
-pragma-rs = "0.2.0"
+pragma-rs = "0.2.1"
 ```
 
-You can also use the `sync` version by using the feature:
-
-```toml
-[dependencies]
-pragma-rs = { version = "0.2.0", features = ["sync"] }
-```
+Available features:
+* `sync`: sync version of http calls,
+* `bigdecimal`: returns prices as `BigDecimal`.
 
 ## 🚀 Quick Start
 

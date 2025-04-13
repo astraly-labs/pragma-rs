@@ -21,7 +21,7 @@ async fn main() {
         .unwrap();
 
     tokio::spawn(async move {
-        while let Some(msg) = ws_client.next_message().await {
+        while let Some(msg) = ws_client.recv().await {
             match msg {
                 StarkexMessage::PriceUpdate {
                     oracle_prices,

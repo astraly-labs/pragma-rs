@@ -2,6 +2,7 @@ pub mod lightspeed;
 pub mod starkex;
 
 use std::sync::Arc;
+use std::time::Duration;
 
 use futures_util::{SinkExt, StreamExt};
 use serde::Serialize;
@@ -9,6 +10,8 @@ use thiserror::Error;
 use tokio::sync::mpsc;
 use tokio_tungstenite::tungstenite::client::IntoClientRequest;
 use tokio_tungstenite::{connect_async, tungstenite::protocol::Message};
+
+const PING_INTERVAL: Duration = Duration::from_secs(25);
 
 #[derive(Error, Debug)]
 pub enum WsError {
@@ -82,10 +85,29 @@ impl<T: Send + 'static + Serialize> PragmaWsClient<T> {
         };
 
         tokio::spawn(async move {
-            while let Some(msg) = outgoing_receiver.recv().await {
-                if let Ok(json) = serde_json::to_string(&msg) {
-                    if write.send(Message::Text(json.into())).await.is_err() {
-                        break;
+            let mut ping_interval = tokio::time::interval(PING_INTERVAL);
+            loop {
+                tokio::select! {
+                    // Handle outgoing user messages
+                    msg = outgoing_receiver.recv() => {
+                        match msg {
+                            Some(msg) => {
+                                if let Ok(json) = serde_json::to_string(&msg) {
+                                    if write.send(Message::Text(json.into())).await.is_err() {
+                                        break;
+                                    }
+                                }
+                            }
+                            None => {
+                                break;
+                            }
+                        }
+                    }
+                    // Handle periodic pings
+                    _ = ping_interval.tick() => {
+                        if write.send(Message::Ping(Default::default())).await.is_err() {
+                            break;
+                        }
                     }
                 }
             }
@@ -119,7 +141,7 @@ impl<T: Send + 'static + Serialize> PragmaWsClient<T> {
     }
 
     /// Receives the next parsed message from the WebSocket.
-    pub async fn next_message(&mut self) -> Option<T> {
+    pub async fn recv(&mut self) -> Option<T> {
         self.incoming_receiver.recv().await
     }
 }

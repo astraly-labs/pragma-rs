@@ -3,7 +3,7 @@ use pragma_rs::{
 };
 
 fn main() {
-    let api_key = "MY_API_KEY".to_string();
+    let api_key = "nOCBKDhmCOxhIYjzsdf1MgasQQCGBB7d".to_string();
 
     let config = pragma_rs::Config::new(api_key, Environment::Development);
     let client = PragmaClient::new(config).unwrap();

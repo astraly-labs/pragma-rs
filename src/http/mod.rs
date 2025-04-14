@@ -21,18 +21,8 @@ impl PragmaClient {
     }
 
     #[cfg(feature = "sync")]
-    /// Synchronous version of `is_healthy`.
-    /// Returns true if the API responds successfully, false otherwise.
     pub fn is_healthy_sync(&self) -> bool {
-        let url = format!("{}/node", self.config.base_url);
-        let client = self.blocking_client().unwrap();
-        match client
-            .get(url)
-            .timeout(std::time::Duration::from_secs(2))
-            .send()
-        {
-            Ok(response) => response.status().is_success(),
-            Err(_) => false,
-        }
+        let runtime = self.runtime();
+        runtime.block_on(self.is_healthy())
     }
 }

@@ -4,14 +4,6 @@ mod errors;
 mod http;
 mod ws;
 
-#[cfg(feature = "sync")]
-use std::{cell::RefCell, thread_local};
-
-#[cfg(feature = "sync")]
-thread_local! {
-    pub(crate) static BLOCKING_CLIENT: RefCell<Option<reqwest::blocking::Client>> = const { RefCell::new(None) };
-}
-
 pub use client::PragmaClient;
 pub use config::{Config, Environment};
 pub use errors::PragmaError;

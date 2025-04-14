@@ -11,7 +11,7 @@ Add `pragma-rs` to your Rust project by tossing this into your `Cargo.toml`:
 
 ```toml
 [dependencies]
-pragma-rs = "0.2.3"
+pragma-rs = "0.2.4"
 ```
 
 Available features:
@@ -32,9 +32,8 @@ let config = Config::new(api_key, Environment::Development);
 ```
 
 ##### 🌍 Environments:
-* `Local`: Can be configured with any url.
 * `Development`: Perfect for testing and tinkering.
-* `Production`: For the real deal (not ready yet, stay tuned).
+* `Production`: *not available yet*
 
 ### 2. Create a Client
 

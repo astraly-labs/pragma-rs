@@ -141,58 +141,13 @@ impl PragmaClient {
     }
 
     #[cfg(feature = "sync")]
-    /// Sync version of `get_onchain_entry`
     pub fn get_onchain_entry_sync(
         &self,
         base: &str,
         quote: &str,
         params: GetOnchainEntryParams,
     ) -> Result<GetOnchainEntryResponse, PragmaError> {
-        let url = format!(
-            "{}/node/v1/onchain/{}/{}",
-            self.config.base_url, base, quote
-        );
-        let client = self.blocking_client()?;
-        let mut request = client.get(&url);
-
-        let mut query = vec![("network", params.network.to_string())];
-        if let Some(agg) = params.aggregation {
-            query.push(("aggregation", agg.as_str().to_string()));
-        }
-        if let Some(routing) = params.routing {
-            query.push(("routing", routing.to_string()));
-        }
-        if let Some(ts) = params.timestamp {
-            query.push(("timestamp", ts.to_string()));
-        }
-        if let Some(comps) = params.components {
-            query.push(("components", comps.to_string()));
-        }
-        request = request.query(&query);
-
-        let response = request.send()?;
-
-        match response.status() {
-            reqwest::StatusCode::UNAUTHORIZED => {
-                let text = response
-                    .text()
-                    .unwrap_or_else(|_| "No additional details".to_string());
-                return Err(PragmaError::Unauthorized(text));
-            }
-            status if !status.is_success() => {
-                let text = response
-                    .text()
-                    .unwrap_or_else(|_| "Unknown error".to_string());
-                return Err(PragmaError::ApiError(format!(
-                    "API returned status {}: {}",
-                    status, text
-                )));
-            }
-            _ => {}
-        }
-
-        response
-            .json::<GetOnchainEntryResponse>()
-            .map_err(PragmaError::HttpError)
+        let runtime = self.runtime();
+        runtime.block_on(self.get_onchain_entry(base, quote, params))
     }
 }

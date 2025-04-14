@@ -23,6 +23,8 @@ pub enum WsError {
     Parse(String),
     #[error("Serialization error: {0}")]
     Serialization(String),
+    #[error("Could not insert API key to header: {0}")]
+    InvalidApiKey(#[from] reqwest::header::InvalidHeaderValue),
 }
 
 pub struct PragmaWsClient<T> {
@@ -68,9 +70,7 @@ impl<T: Send + 'static + Serialize> PragmaWsClient<T> {
             Err(e) => Err(WsError::Connection(format!("{e}"))),
         }?;
 
-        request
-            .headers_mut()
-            .insert("x-api-key", api_key.parse().unwrap());
+        request.headers_mut().insert("x-api-key", api_key.parse()?);
 
         let (ws_stream, _) = connect_async(request)
             .await

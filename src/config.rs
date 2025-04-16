@@ -20,6 +20,7 @@ pub enum Environment {
 ///
 /// let config = Config::new("your_api_key".to_string(), Environment::Development);
 /// ```
+#[derive(Debug, Clone, PartialEq, Eq)]
 pub struct Config {
     pub(crate) api_key: String,
     pub(crate) base_url: String,

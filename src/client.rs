@@ -29,6 +29,7 @@ static mut RUNTIME: Option<Runtime> = None;
 ///     Ok(())
 /// }
 /// ```
+#[derive(Debug, Clone)]
 pub struct PragmaClient {
     pub(crate) config: Config,
     pub(crate) http_client: reqwest::Client,

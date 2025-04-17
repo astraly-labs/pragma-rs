@@ -1772,7 +1772,7 @@ dependencies = [
 
 [[package]]
 name = "pragma-rs"
-version = "0.2.5"
+version = "0.2.6"
 dependencies = [
  "bigdecimal",
  "futures-util",

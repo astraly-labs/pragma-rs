@@ -4,7 +4,7 @@ use std::num::ParseIntError;
 use bigdecimal::BigDecimal;
 use serde::{Deserialize, Serialize};
 
-use pragma_common::{aggregation::AggregationMode, web3::StarknetNetwork};
+use pragma_common::{aggregation::AggregationMode, starknet::StarknetNetwork};
 
 use crate::{PragmaClient, PragmaError};
 

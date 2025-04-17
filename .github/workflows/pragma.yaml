@@ -1,0 +1,20 @@
+name: Pragma
+
+on:
+  pull_request:
+  push:
+    branches:
+      - main
+
+jobs:
+  workflow:
+    permissions:
+      # required for all workflows
+      security-events: write
+      checks: write
+      pull-requests: write
+      # only required for workflows in private repositories
+      actions: read
+      contents: read
+    uses: astraly-labs/workflows/.github/workflows/rust.yaml@main
+    secrets: inherit

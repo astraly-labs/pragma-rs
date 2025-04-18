@@ -20,7 +20,7 @@ static mut RUNTIME: Option<Runtime> = None;
 /// # Examples
 ///
 /// ```
-/// use pragma_sdk::{Config, PragmaError, Environment, PragmaClient};
+/// use pragma_rs::{Config, PragmaError, Environment, PragmaClient};
 ///
 /// #[tokio::main]
 /// async fn main() -> Result<(), PragmaError> {
@@ -43,7 +43,7 @@ impl PragmaClient {
 
         let http_client = Client::builder().default_headers(headers.clone()).build()?;
 
-        Ok(PragmaClient {
+        Ok(Self {
             config,
             http_client,
         })
@@ -51,7 +51,7 @@ impl PragmaClient {
 
     /// Gets or creates the thread-local blocking client.
     #[cfg(feature = "sync")]
-    pub(crate) fn runtime(&self) -> &'static Runtime {
+    pub(crate) fn runtime() -> &'static Runtime {
         unsafe {
             INIT.call_once(|| {
                 RUNTIME = match Runtime::new() {

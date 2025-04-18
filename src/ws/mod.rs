@@ -1,5 +1,5 @@
-pub mod lightspeed;
-pub mod starkex;
+pub(crate) mod lightspeed;
+pub(crate) mod starkex;
 
 use std::sync::Arc;
 use std::time::Duration;
@@ -133,7 +133,7 @@ impl<T: Send + 'static + Serialize> PragmaWsClient<T> {
     }
 
     /// Sends a message to the WebSocket using the outgoing sender.
-    pub async fn send(&self, msg: T) -> Result<(), WsError> {
+    pub fn send(&self, msg: T) -> Result<(), WsError> {
         self.outgoing_sender
             .send(msg)
             .map_err(|e| WsError::Send(e.to_string()))?;

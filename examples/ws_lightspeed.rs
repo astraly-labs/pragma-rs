@@ -17,7 +17,6 @@ async fn main() {
             msg_type: "subscribe".into(),
             pairs: vec!["BTC/USD".to_string(), "ETH/USD".to_string()],
         })
-        .await
         .unwrap();
 
     tokio::spawn(async move {
@@ -32,7 +31,7 @@ async fn main() {
                 LightspeedMessage::Subscribe { msg_type, pairs } => {
                     println!("{msg_type} to {pairs:?}");
                 }
-                _ => {}
+                LightspeedMessage::Unsubscribe { .. } => {}
             }
         }
     });

@@ -16,7 +16,7 @@ pub enum Environment {
 /// # Examples
 ///
 /// ```
-/// use pragma_sdk::{Config, Environment};
+/// use pragma_rs::{Config, Environment};
 ///
 /// let config = Config::new("your_api_key".to_string(), Environment::Development);
 /// ```
@@ -42,7 +42,7 @@ impl Config {
             ),
             Environment::Production => todo!("No endpoints ready yet."),
         };
-        Config {
+        Self {
             api_key,
             base_url,
             ws_url,

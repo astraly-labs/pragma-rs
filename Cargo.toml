@@ -1,6 +1,6 @@
 [package]
 name = "pragma-rs"
-version = "0.2.6"
+version = "0.2.7"
 edition = "2021"
 rust-version = "1.81"
 categories = []
@@ -21,7 +21,7 @@ path = "examples/http_sync.rs"
 required-features = ["sync"]
 
 [dependencies]
-pragma-common = { version = "0.2.9", features = ["starknet"] }
+pragma-common = { version = "0.2.10", features = ["starknet"] }
 
 reqwest = { version = "0.12", features = ["json", "stream", "blocking"] }
 tokio-tungstenite = { version = "0.26", features = ["native-tls"] }

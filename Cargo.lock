@@ -1755,11 +1755,10 @@ dependencies = [
 
 [[package]]
 name = "pragma-common"
-version = "0.2.9"
+version = "0.2.10"
 source = "registry+https://github.com/rust-lang/crates.io-index"
-checksum = "05e464f12893b3e18a1f6cf0fa0517597bb08a3eba102258f5ecafbbc89e4ed4"
+checksum = "0d2ff06f746960f867d6e0c98538e90ed0e9e8a8c68f4949523d9626dba52189"
 dependencies = [
- "bigdecimal",
  "cainome",
  "capnpc",
  "indexmap 2.8.0",
@@ -1772,7 +1771,7 @@ dependencies = [
 
 [[package]]
 name = "pragma-rs"
-version = "0.2.6"
+version = "0.2.7"
 dependencies = [
  "bigdecimal",
  "futures-util",

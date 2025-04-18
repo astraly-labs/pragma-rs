@@ -85,14 +85,14 @@ impl PragmaClient {
     /// # Examples
     ///
     /// ```no_run
-    /// use your_crate_name::{PragmaClient, GetOnchainEntryParams, Network, AggregationMode};
+    /// use pragma_rs::{PragmaClient, GetOnchainEntryParams, StarknetNetwork, Environment, AggregationMode};
     ///
     /// #[tokio::main]
     /// async fn main() -> Result<(), Box<dyn std::error::Error>> {
-    ///     let config = Config::new("your_api_key".to_string(), Environment::Development);
+    ///     let config = pragma_rs::Config::new("your_api_key".to_string(), Environment::Development);
     ///     let client = PragmaClient::new(config)?;
     ///     let params = GetOnchainEntryParams {
-    ///         network: Network::Mainnet,
+    ///         network: StarknetNetwork::Mainnet,
     ///         aggregation: Some(AggregationMode::Median),
     ///         components: Some(true),
     ///         routing: None,
@@ -147,7 +147,7 @@ impl PragmaClient {
         quote: &str,
         params: GetOnchainEntryParams,
     ) -> Result<GetOnchainEntryResponse, PragmaError> {
-        let runtime = self.runtime();
+        let runtime = Self::runtime();
         runtime.block_on(self.get_onchain_entry(base, quote, params))
     }
 }

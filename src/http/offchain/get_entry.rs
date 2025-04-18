@@ -104,7 +104,7 @@ impl PragmaClient {
     /// # Examples
     ///
     /// ```no_run
-    /// use pragma_sdk::{Config, Environment, PragmaError, PragmaClient, GetEntryParams, Interval, AggregationMode};
+    /// use pragma_rs::{Config, Environment, PragmaError, PragmaClient, GetEntryParams, Interval, AggregationMode};
     ///
     /// #[tokio::main]
     /// async fn main() -> Result<(), PragmaError> {
@@ -169,8 +169,7 @@ impl PragmaClient {
                     .await
                     .unwrap_or_else(|_| "Unknown error".to_string());
                 return Err(PragmaError::ApiError(format!(
-                    "API returned status {}: {}",
-                    status, text
+                    "API returned status {status}: {text}",
                 )));
             }
             _ => {}
@@ -189,7 +188,7 @@ impl PragmaClient {
         quote: &str,
         params: Option<GetEntryParams>,
     ) -> Result<GetEntryResponse, PragmaError> {
-        let runtime = self.runtime();
+        let runtime = Self::runtime();
         runtime.block_on(self.get_entry(base, quote, params))
     }
 }

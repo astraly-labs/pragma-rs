@@ -1,1 +1,1 @@
-pub mod get_entry;
+pub(crate) mod get_entry;

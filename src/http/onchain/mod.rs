@@ -1,1 +1,1 @@
-pub mod get_onchain_entry;
+pub(crate) mod get_onchain_entry;

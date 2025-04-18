@@ -1,0 +1,7 @@
+[profile.ci]
+# Fail fast to avoid wasting CI minutes
+fail-fast = true
+# Use more conservative timeouts for CI environments
+slow-timeout = { period = "60s", terminate-after = 3 }
+# Optimize for GitHub Actions runners
+test-threads = "num-cpus"

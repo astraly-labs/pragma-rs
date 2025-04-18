@@ -4,22 +4,22 @@ pub enum PragmaError {
     #[error("Unauthorized: {0}")]
     Unauthorized(String),
 
-    /// PragmaError from the HTTP client.
+    /// `PragmaError` from the HTTP client.
     #[error("HTTP request failed: {0}")]
     HttpError(#[from] reqwest::Error),
 
-    /// PragmaError from WebSocket operations.
+    /// `PragmaError` from WebSocket operations.
     #[error("WebSocket error: {0}")]
     WebSocketError(#[from] tokio_tungstenite::tungstenite::Error),
 
     #[error("Could not build Pragma client")]
     BuildingClient,
 
-    /// PragmaError parsing JSON data.
+    /// `PragmaError` parsing JSON data.
     #[error("JSON parsing failed: {0}")]
     JsonError(#[from] serde_json::Error),
 
-    /// PragmaError returned by the Pragma API.
+    /// `PragmaError` returned by the Pragma API.
     #[error("API error: {0}")]
     ApiError(String),
 

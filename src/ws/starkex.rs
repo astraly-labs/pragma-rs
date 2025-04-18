@@ -67,11 +67,9 @@ impl PragmaClient {
         let url = format!("{}/node/v1/data/subscribe", self.config.ws_url);
         let api_key = self.config.api_key.clone();
         PragmaWsClient::new(url, api_key, |msg| {
-            if let Ok(msg) = serde_json::from_str::<String>(&msg) {
+            serde_json::from_str::<String>(&msg).map_or(None, |msg| {
                 serde_json::from_str::<StarkexMessage>(&msg).ok()
-            } else {
-                None
-            }
+            })
         })
     }
 }

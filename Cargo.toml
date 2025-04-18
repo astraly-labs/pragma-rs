@@ -16,7 +16,7 @@ sync = ["reqwest/blocking"]
 bigdecimal = ["dep:bigdecimal"]
 
 [[example]]
-name = "http_sync"
+name = "http-sync"
 path = "examples/http_sync.rs"
 required-features = ["sync"]
 

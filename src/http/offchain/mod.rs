@@ -1,1 +1,2 @@
-pub(crate) mod get_entry;
+pub(crate) mod entry;
+pub(crate) mod funding_rates;

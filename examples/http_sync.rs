@@ -26,4 +26,25 @@ fn main() {
         .unwrap();
 
     println!("BTC/USD data:\n{r:?}");
+
+    let r = client
+        .get_historical_funding_rates_sync(
+            "BTC",
+            "USD",
+            1746448809,
+            1746535238,
+            "hyperliquid"
+        )
+        .unwrap();
+    println!("BTC/USD historical funding rates:\n{r:?}");
+
+    let r = client
+        .get_funding_rates_sync(
+            "BTC",
+            "USD",
+            "hyperliquid",
+            None,
+        )
+        .unwrap();
+    println!("BTC/USD funding rates:\n{r:?}");
 }

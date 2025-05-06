@@ -1,65 +1,36 @@
-use std::num::ParseIntError;
-
-#[cfg(feature = "bigdecimal")]
-use bigdecimal::BigDecimal;
-use pragma_common::{
-    aggregation::AggregationMode, instrument_type::InstrumentType, interval::Interval,
-};
-use serde::{Deserialize, Serialize};
-
 use crate::{PragmaClient, PragmaError};
 
-/// Response for the "Data Pair" offchain endpoint.
-///
-/// Contains the aggregated price data and optional components for a trading pair.
-#[derive(Debug, Deserialize, Serialize)]
-pub struct GetFundingRatesResponse {
-    /// The number of decimal places in the price.
-    pub hourly_rate: f64,
-    
-    /// The identifier of the trading pair (e.g., "BTC/USD").
-    pub pair: String,
+use super::FundingRatesEntry;
 
-    /// The aggregated price as a string.
-    pub source: String,
-
-    /// The timestamp of the price data, in milliseconds since the Unix epoch.
-    pub timestamp_ms: u64,
-}
+pub type GetFundingRatesResponse = FundingRatesEntry;
 
 impl PragmaClient {
-    /// Fetches price data for a trading pair from the offchain "Data Pair" endpoint.
+    /// Fetches funding rate data for a trading pair from the offchain "Funding Rates" endpoint.
     ///
-    /// This method retrieves price data for a specified base and quote asset pair, with optional parameters to customize
-    /// the aggregation and filtering of the data.
-    ///
+    /// This method retrieves funding rate data for a specified base and quote asset pair on a specific source.
+    /// if a timestamp is provided, the last funding rate data before that timestamp will be returned.
     /// # Arguments
     ///
     /// * `base` - The base asset symbol (e.g., "BTC").
     /// * `quote` - The quote asset symbol (e.g., "USD").
-    /// * `params` - Optional query parameters to customize the request.
+    /// * `source` - The source of the funding rate data.
+    /// * `timestamp_s` - Optional timestamp in seconds since the Unix epoch.
     ///
     /// # Returns
     ///
-    /// A `Result` containing the `GetEntryResponse` on success, or a `PragmaError` on failure.
+    /// A `Result` containing the `GetFundingRatesResponse` on success, or a `PragmaError` on failure.
     ///
     /// # Examples
     ///
     /// ```no_run
-    /// use pragma_rs::{Config, Environment, PragmaError, PragmaClient, GetEntryParams, Interval, AggregationMode};
+    /// use pragma_rs::{Config, Environment, PragmaError, PragmaClient};
     ///
     /// #[tokio::main]
     /// async fn main() -> Result<(), PragmaError> {
     ///     let config = Config::new("your_api_key".to_string(), Environment::Development);
     ///     let client = PragmaClient::new(config)?;
-    ///     let params = GetEntryParams {
-    ///         interval: Some(Interval::OneHour),
-    ///         aggregation: Some(AggregationMode::Median),
-    ///         with_components: Some(true),
-    ///         ..Default::default()
-    ///     };
-    ///     let response = client.get_entry("BTC", "USD", Some(params)).await?;
-    ///     println!("Price: {}", response.price);
+    ///     let response = client.get_funding_rates("BTC", "USD", "hyperliquid", None).await?;
+    ///     println!("Funding Rate: {}", response.hourly_rate);
     ///     Ok(())
     /// }
     /// ```

@@ -1,65 +1,37 @@
-use std::num::ParseIntError;
-
-#[cfg(feature = "bigdecimal")]
-use bigdecimal::BigDecimal;
-use pragma_common::{
-    aggregation::AggregationMode, instrument_type::InstrumentType, interval::Interval,
-};
-use serde::{Deserialize, Serialize};
-
 use crate::{PragmaClient, PragmaError};
 
-/// Response for the "Data Pair" offchain endpoint.
-///
-/// Contains the aggregated price data and optional components for a trading pair.
-#[derive(Debug, Deserialize, Serialize)]
-pub struct GetHistoricalFundingRatesResponse {
-    /// The number of decimal places in the price.
-    pub hourly_rate: f64,
-    
-    /// The identifier of the trading pair (e.g., "BTC/USD").
-    pub pair: String,
+use super::FundingRatesEntry;
 
-    /// The aggregated price as a string.
-    pub source: String,
-
-    /// The timestamp of the price data, in milliseconds since the Unix epoch.
-    pub timestamp_ms: u64,
-}
+pub type GetHistoricalFundingRatesResponse = Vec<FundingRatesEntry>;
 
 impl PragmaClient {
-    /// Fetches price data for a trading pair from the offchain "Data Pair" endpoint.
+    /// Fetches historical funding rate data for a trading pair from the offchain "Historical Funding Rates" endpoint.
     ///
-    /// This method retrieves price data for a specified base and quote asset pair, with optional parameters to customize
-    /// the aggregation and filtering of the data.
+    /// This method retrieves historical funding rate data for a specified base and quote asset pair on a specific source.
     ///
     /// # Arguments
     ///
     /// * `base` - The base asset symbol (e.g., "BTC").
     /// * `quote` - The quote asset symbol (e.g., "USD").
-    /// * `params` - Optional query parameters to customize the request.
+    /// * `from_ts` - The start timestamp in milliseconds since the Unix epoch.
+    /// * `to_ts` - The end timestamp in milliseconds since the Unix epoch.
+    /// * `source` - The source of the funding rate data.
     ///
     /// # Returns
     ///
-    /// A `Result` containing the `GetEntryResponse` on success, or a `PragmaError` on failure.
+    /// A `Result` containing the `GetHistoricalFundingRatesResponse` on success, or a `PragmaError` on failure.
     ///
     /// # Examples
     ///
     /// ```no_run
-    /// use pragma_rs::{Config, Environment, PragmaError, PragmaClient, GetEntryParams, Interval, AggregationMode};
+    /// use pragma_rs::{Config, Environment, PragmaError, PragmaClient};
     ///
     /// #[tokio::main]
     /// async fn main() -> Result<(), PragmaError> {
     ///     let config = Config::new("your_api_key".to_string(), Environment::Development);
     ///     let client = PragmaClient::new(config)?;
-    ///     let params = GetEntryParams {
-    ///         interval: Some(Interval::OneHour),
-    ///         aggregation: Some(AggregationMode::Median),
-    ///         with_components: Some(true),
-    ///         ..Default::default()
-    ///     };
-    ///     let response = client.get_entry("BTC", "USD", Some(params)).await?;
-    ///     println!("Price: {}", response.price);
+    ///     let response = client.get_historical_funding_rates("BTC", "USD", 1746448809, 1746535238, "hyperliquid").await?;
+    ///     println!("Historical Funding Rates: {}", response.hourly_rate);
     ///     Ok(())
     /// }
     /// ```
@@ -70,7 +42,7 @@ impl PragmaClient {
         from_ts: u128,
         to_ts: u128,
         source: &str,
-    ) -> Result<Vec<GetHistoricalFundingRatesResponse>, PragmaError> {
+    ) -> Result<GetHistoricalFundingRatesResponse, PragmaError> {
         let url = format!("{}/node/v1/funding_rates/history/{}/{}", self.config.base_url, base, quote);
         let query = vec![
             ("timestamp", format!("{},{}", from_ts, to_ts)),
@@ -101,7 +73,7 @@ impl PragmaClient {
         }
 
         response
-            .json::<Vec<GetHistoricalFundingRatesResponse>>()
+            .json::<GetHistoricalFundingRatesResponse>()
             .await
             .map_err(PragmaError::HttpError)
     }
@@ -114,7 +86,7 @@ impl PragmaClient {
         from_ts: u128,
         to_ts: u128,
         source: &str,
-    ) -> Result<Vec<GetHistoricalFundingRatesResponse>, PragmaError> {
+    ) -> Result<GetHistoricalFundingRatesResponse, PragmaError> {
         let runtime = Self::runtime();
         runtime.block_on(self.get_historical_funding_rates(base, quote, from_ts, to_ts, source))
     }

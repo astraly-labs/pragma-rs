@@ -15,7 +15,8 @@ pub use pragma_common::{
 };
 
 // Offchain endpoints
-pub use http::offchain::get_entry::{Component, GetEntryParams, GetEntryResponse};
+pub use http::offchain::entry::{Component, GetEntryParams, GetEntryResponse};
+pub use http::offchain::funding_rates::{GetFundingRatesResponse, GetHistoricalFundingRatesResponse};
 
 // Onchain endpoints
 pub use http::onchain::get_onchain_entry::{

@@ -13,7 +13,7 @@ pub use get_historical_funding_rates::GetHistoricalFundingRatesResponse;
 pub struct FundingRatesEntry {
     /// The hourly funding rate as a percentage.
     pub hourly_rate: f64,
-    
+
     /// The identifier of the trading pair (e.g., "BTC/USD").
     pub pair: String,
 

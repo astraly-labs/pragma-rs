@@ -40,7 +40,10 @@ impl Config {
                 "https://api.devnet.pragma.build".to_string(),
                 "wss://api.devnet.pragma.build".to_string(),
             ),
-            Environment::Production => todo!("No endpoints ready yet."),
+            Environment::Production => (
+                "https://api.production.pragma.build".to_string(),
+                "wss://api.production.pragma.build".to_string(),
+            ),
         };
         Self {
             api_key,

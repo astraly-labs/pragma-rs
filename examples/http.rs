@@ -29,24 +29,13 @@ async fn main() {
     println!("BTC/USD data:\n{r:?}");
 
     let r = client
-        .get_historical_funding_rates(
-            "BTC",
-            "USD",
-            1746448809,
-            1746535238,
-            "hyperliquid"
-        )
+        .get_historical_funding_rates("BTC", "USD", 1746448809, 1746535238, "hyperliquid")
         .await
         .unwrap();
     println!("BTC/USD historical funding rates:\n{r:?}");
 
     let r = client
-        .get_funding_rates(
-            "BTC",
-            "USD",
-            "hyperliquid",
-            None,
-        )
+        .get_funding_rates("BTC", "USD", "hyperliquid", None)
         .await
         .unwrap();
     println!("BTC/USD funding rates:\n{r:?}");

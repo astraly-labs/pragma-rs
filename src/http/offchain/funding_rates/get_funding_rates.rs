@@ -41,10 +41,11 @@ impl PragmaClient {
         source: &str,
         timestamp_s: Option<u64>,
     ) -> Result<GetFundingRatesResponse, PragmaError> {
-        let url = format!("{}/node/v1/funding_rates/{}/{}", self.config.base_url, base, quote);
-        let mut query = vec![
-            ("source", source.to_string()),
-            ];
+        let url = format!(
+            "{}/node/v1/funding_rates/{}/{}",
+            self.config.base_url, base, quote
+        );
+        let mut query = vec![("source", source.to_string())];
         if let Some(timestamp_s) = timestamp_s {
             query.push(("timestamp", timestamp_s.to_string()));
         }
@@ -90,5 +91,3 @@ impl PragmaClient {
         runtime.block_on(self.get_funding_rates(base, quote, source, timestamp_s))
     }
 }
-
-

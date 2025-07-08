@@ -20,20 +20,6 @@ impl PragmaClient {
     /// # Returns
     ///
     /// A `Result` containing the `GetHistoricalFundingRatesResponse` on success, or a `PragmaError` on failure.
-    ///
-    /// # Examples
-    ///
-    /// ```no_run
-    /// use pragma_rs::{Config, Environment, PragmaError, PragmaClient};
-    ///
-    /// #[tokio::main]
-    /// async fn main() -> Result<(), PragmaError> {
-    ///     let config = Config::new("your_api_key".to_string(), Environment::Development);
-    ///     let client = PragmaClient::new(config)?;
-    ///     let response = client.get_historical_funding_rates("BTC", "USD", 1746448809, 1746535238, "hyperliquid").await?;
-    ///     println!("Historical Funding Rates: {}", response.hourly_rate);
-    ///     Ok(())
-    /// }
     /// ```
     pub async fn get_historical_funding_rates(
         &self,
@@ -43,7 +29,10 @@ impl PragmaClient {
         to_ts: u128,
         source: &str,
     ) -> Result<GetHistoricalFundingRatesResponse, PragmaError> {
-        let url = format!("{}/node/v1/funding_rates/history/{}/{}", self.config.base_url, base, quote);
+        let url = format!(
+            "{}/node/v1/funding_rates/history/{}/{}",
+            self.config.base_url, base, quote
+        );
         let query = vec![
             ("timestamp", format!("{},{}", from_ts, to_ts)),
             ("source", source.to_string()),
@@ -91,5 +80,3 @@ impl PragmaClient {
         runtime.block_on(self.get_historical_funding_rates(base, quote, from_ts, to_ts, source))
     }
 }
-
-

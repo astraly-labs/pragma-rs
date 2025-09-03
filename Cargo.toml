@@ -1,6 +1,6 @@
 [package]
 name = "pragma-rs"
-version = "0.2.9"
+version = "0.2.10"
 edition = "2021"
 rust-version = "1.81"
 categories = []
@@ -21,15 +21,15 @@ path = "examples/http_sync.rs"
 required-features = ["sync"]
 
 [dependencies]
-pragma-common = { version = "0.2.10", features = ["starknet"] }
+pragma-common = { version = "0.4.1", features = ["starknet"] }
 
 reqwest = { version = "0.12", features = ["json", "stream", "blocking"] }
 tokio-tungstenite = { version = "0.26", features = ["native-tls"] }
 serde = { version = "1", features = ["derive"] }
-serde_json = "1.0"
-thiserror = "2.0"
+serde_json = "1"
+thiserror = "2"
 tokio = { version = "1", features = ["full"] }
 futures-util = { version = "0.3" }
 
 # bigdecimal feature
-bigdecimal = { version = "0.4.8", optional = true }
+bigdecimal = { version = "0.4", optional = true }
